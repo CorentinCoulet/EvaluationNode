@@ -1,0 +1,61 @@
+doctype html
+html
+  head
+    title Application Evaluée
+    link(rel='stylesheet', href='/css/style.css')
+    script.
+      document.addEventListener('DOMContentLoaded', function() {
+          const alertMessages = document.querySelectorAll('.alert');
+          
+          alertMessages.forEach(alert => {
+              if (alert.innerText.trim() !== '' && alert.querySelector('.message').innerText.trim() !== '') {
+                  alert.classList.add('show');
+              }
+          });
+      
+          const closeButtons = document.querySelectorAll('.close-btn');
+          closeButtons.forEach(btn => {
+              btn.addEventListener('click', function() {
+                  this.parentNode.classList.remove('show');
+              });
+          });
+      });
+
+  body
+    header
+      div.container
+        div#branding
+          h1 Application Evaluée
+        nav
+          ul
+            if user
+              li
+                a(href='/dashboard') Dashboard
+              li
+                a(href='/auth/logout') Se déconnecter
+            else
+              li
+                a(href='/auth/login') Se connecter
+              li
+                a(href='/auth/register') Créer un compte
+
+    if success_msg
+      div.alert.alert-success
+        span.close-btn ×
+        div.message
+          | #{success_msg}
+    if error_msg
+      div.alert.alert-danger
+        span.close-btn ×
+        div.message
+          | #{error_msg}
+    if temp_success_msg
+      div.alert.alert-success
+        span.close-btn ×
+        div.message
+          | #{temp_success_msg}
+
+    block content
+
+    footer
+      p &copy; 2024 évaluation
